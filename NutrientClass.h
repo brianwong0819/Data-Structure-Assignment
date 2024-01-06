@@ -10,7 +10,7 @@ struct Food
     string measure;
     int grams;
     int protein;
-    int calories;
+    int calories;//hh
     int fat;
     int sat_fat;
     double fibre;
