@@ -19,6 +19,22 @@ struct Food
     Food* nextaddrress;
 };
 
+struct FoodCalorieArray {
+    string food;
+    int calories;
+
+    // Default constructor
+    FoodCalorieArray() : food(""), calories(0) {}
+
+    // Constructor with parameters
+    FoodCalorieArray(string f, int c) : food(f), calories(c) {}
+
+    void print() const {
+        cout << "Food: " << food << ", Calories: " << calories << endl;
+    }
+};
+
+
 class NutrientClass
 {
     Food* head;
@@ -30,6 +46,10 @@ public:
         head = nullptr;
         size = 0;
     }
+
+    int getListSize() const {
+            return size;
+        }
 
     Food* CreateNewNode(string food, string measure, int grams,int calories, int protein, int fat, int sat_fat, double fibre, int carbs, string category){
         Food* newnode = new Food;
@@ -54,6 +74,7 @@ public:
             cout << left << setw(50) << current->food
             << setw(25) << current->measure
             << setw(10) << current->grams
+            << setw(10) << current->calories
             << setw(10) << current->protein
             << setw(10)<< current->fat
             << setw(10) << current->sat_fat
@@ -161,6 +182,21 @@ public:
             // Insert into the linked list
             InserttoEnd(food, measure, stoi(grams), stoi(calories), stoi(protein), stoi(fat), stoi(sat_fat), stod(fibre), stod(carbs), category);
         }
+    }
+
+    // Function to create and return the array
+    FoodCalorieArray* getFoodCalorieArray() {
+        FoodCalorieArray* arr = new FoodCalorieArray[size];
+        Food* current = head;
+        int index = 0;
+
+        while (current != nullptr) {
+            arr[index] = FoodCalorieArray(current->food, current->calories);
+            current = current->nextaddrress;
+            ++index;
+        }
+
+        return arr;
     }
 };
 
