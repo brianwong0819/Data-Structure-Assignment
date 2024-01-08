@@ -20,7 +20,7 @@ int main() {
     FoodCalorieArray* foodCalorieArray = nutrientClass.getFoodCalorieArray();
 
     for (int i = 0; i < Size; ++i) {
-        // cout << "Row " << i+1 << " ";
+        cout << "Row " << i+1 << " ";
         foodCalorieArray[i].print();
     }
 
