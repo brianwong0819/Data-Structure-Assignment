@@ -67,6 +67,14 @@ public:
         size = 0;
     }
 
+    Food* getHead() const {
+        return head;
+    }
+
+    void setHead(Food* newHead) {
+        head = newHead;
+    }
+
     int getListSize() const {
             return size;
         }
@@ -261,4 +269,5 @@ public:
         cout << "No calories found in the array.";
         return false;
     }
+
 };
