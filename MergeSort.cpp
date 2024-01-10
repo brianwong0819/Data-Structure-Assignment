@@ -63,7 +63,6 @@ Food* mergeSort(Food* head) {
     return sortedList;
 }
 
-// 对外提供的排序接口
 void sortLinkedList(NutrientClass& nutrientData) {
     Food* sortedHead = mergeSort(nutrientData.getHead());
     nutrientData.setHead(sortedHead);
@@ -91,9 +90,6 @@ int main() {
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
     cout << "Time taken by merge sort algorithm(Lineked List) is: " << durationgap.count() << " microseconds" << endl;
-
-
-    
 
     return 0;
 }
