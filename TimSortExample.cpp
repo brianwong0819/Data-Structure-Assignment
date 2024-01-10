@@ -81,7 +81,38 @@ void timSort(FoodCalorieArray arr[], int n) {
 
 
 
+// Function to get the head of the run starting at 'startIdx' position
+Food* getRunHead(Food* head, int startIdx) {
+    while (head != nullptr && startIdx > 0) {
+        head = head->nextaddrress;
+        startIdx--;
+    }
+    return head;
+}
 
+// Function to get the tail of the list
+Food* getTail(Food* head) {
+    if (head == nullptr) return nullptr;
+
+    while (head->nextaddrress != nullptr) {
+        head = head->nextaddrress;
+    }
+    return head;
+}
+
+void sortedInsert(Food*& sortedHead, Food* newNode) {
+    if (sortedHead == nullptr || sortedHead->calories >= newNode->calories) {
+        newNode->nextaddrress = sortedHead;
+        sortedHead = newNode;
+    } else {
+        Food* current = sortedHead;
+        while (current->nextaddrress != nullptr && current->nextaddrress->calories < newNode->calories) {
+            current = current->nextaddrress;
+        }
+        newNode->nextaddrress = current->nextaddrress;
+        current->nextaddrress = newNode;
+    }
+}
 
 void insertionSortRun(Food*& start, int runSize) {
     if (start == nullptr || runSize <= 1) {
@@ -112,21 +143,6 @@ void insertionSortRun(Food*& start, int runSize) {
     }
 }
 
-void sortedInsert(Food*& sortedHead, Food* newNode) {
-    // Special case for the head end
-    if (sortedHead == nullptr || sortedHead->calories >= newNode->calories) {
-        newNode->nextaddrress = sortedHead;
-        sortedHead = newNode;
-    } else {
-        // Locate the node before the point of insertion
-        Food* current = sortedHead;
-        while (current->nextaddrress != nullptr && current->nextaddrress->calories < newNode->calories) {
-            current = current->nextaddrress;
-        }
-        newNode->nextaddrress = current->nextaddrress;
-        current->nextaddrress = newNode;
-    }
-}
 
 Food* mergeLinkedList(Food* left, Food* right) {
     // Base cases
@@ -202,23 +218,6 @@ void timSortLinkedList(Food*& head, int n) {
             tail = getTail(merged);
         }
     }
-}
-
-// Function to get the head of the run starting at 'startIdx' position
-Food* getRunHead(Food* head, int startIdx) {
-    while (head != nullptr && startIdx > 0) {
-        head = head->nextaddrress;
-        startIdx--;
-    }
-    return head;
-}
-
-// Function to get the tail of the list
-Food* getTail(Food* head) {
-    while (head != nullptr && head->nextaddrress != nullptr) {
-        head = head->nextaddrress;
-    }
-    return head;
 }
 
 int main() {
