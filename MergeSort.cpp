@@ -1,4 +1,8 @@
-#include "NutrientClass.h"  
+#include <chrono>
+#include "NutrientClass.h"
+
+using namespace std;
+using namespace std::chrono;
 
 // merge two sorted linked list
 Food* merge(Food* a, Food* b) {
@@ -70,13 +74,26 @@ int main() {
 
     nutrientData.LoadFromFile("Nutrients_Info.csv");
 
-    std::cout << "Before Sorting:" << std::endl;
+    std::cout << "Before Sorting:(Linked List)" << std::endl;
     nutrientData.DisplayLinkedList();
 
     sortLinkedList(nutrientData);
 
     std::cout << "\n\n\nAfter Sorting:" << std::endl;
     nutrientData.DisplayLinkedList();
+
+    auto timestart = high_resolution_clock::now();
+    sortLinkedList(nutrientData);
+    std::cout << "\n\n\nAfter Sorting:(Linked List)" << std::endl;
+    nutrientData.DisplayLinkedList();
+
+    auto timeend = high_resolution_clock::now();
+
+    auto durationgap = duration_cast<microseconds>(timeend - timestart);
+    cout << "Time taken by merge sort algorithm(Lineked List) is: " << durationgap.count() << " microseconds" << endl;
+
+
+    
 
     return 0;
 }
