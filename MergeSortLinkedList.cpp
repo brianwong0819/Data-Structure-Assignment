@@ -73,12 +73,16 @@ int main() {
 
     nutrientData.LoadFromFile("Nutrients_Info.csv");
 
+    //Linked List
+
     std::cout << "Before Sorting:(Linked List)" << std::endl;
+    nutrientData.printHeader();
     nutrientData.DisplayLinkedList();
 
     sortLinkedList(nutrientData);
 
     std::cout << "\n\n\nAfter Sorting:" << std::endl;
+    nutrientData.printHeader();   
     nutrientData.DisplayLinkedList();
 
     auto timestart = high_resolution_clock::now();
@@ -90,6 +94,6 @@ int main() {
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
     cout << "Time taken by merge sort algorithm(Lineked List) is: " << durationgap.count() << " microseconds" << endl;
-
+    
     return 0;
 }
