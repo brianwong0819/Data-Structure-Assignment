@@ -269,5 +269,4 @@ public:
         cout << "No calories found in the array.";
         return false;
     }
-
 };
