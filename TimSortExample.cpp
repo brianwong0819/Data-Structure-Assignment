@@ -87,11 +87,11 @@ int main() {
     int Size = nutrientClass.getListSize(); 
     FoodCalorieArray* foodCalorieArray = nutrientClass.getFoodCalorieArray();
 
-
     cout << "Array before sorting: " << endl;
+    nutrientClass.printHeader();
     // Print array before sorting
     for (int i = 0; i < Size; ++i) {
-        cout << "Row " << i+1 << " ";
+        // cout << "Row " << i+1 << " ";
         foodCalorieArray[i].print();
     }
 
@@ -100,9 +100,10 @@ int main() {
     timSort(foodCalorieArray, Size);
 
     cout << endl << "Array after sorting: " << endl;
+    nutrientClass.printHeader();
     // Print array after sorting
     for (int i = 0; i < Size; ++i) {
-        cout << "Row " << i << ": ";
+        // cout << "Row " << i << ": ";
         foodCalorieArray[i].print();
     }
 

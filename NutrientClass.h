@@ -22,16 +22,35 @@ struct Food
 
 struct FoodCalorieArray {
     string food;
+    string measure;
+    int grams;
     int calories;
+    int protein;
+    int fat;
+    int sat_fat;
+    double fibre;
+    double carbs;
+    string category;
 
     // Default constructor
-    FoodCalorieArray() : food(""), calories(0) {}
+    FoodCalorieArray() : food(""), measure(""), grams(0), calories(0), protein(0), fat(0), sat_fat(0), fibre(0.0), carbs(0.0), category("") {}
 
     // Constructor with parameters
-    FoodCalorieArray(string f, int c) : food(f), calories(c) {}
+    FoodCalorieArray(string f, string m, int g, int c, int p, int ft, int sf, double fb, double cb, string cat) : food(f), measure(m), grams(g), calories(c), protein(p), fat(ft), sat_fat(sf), fibre(fb), carbs(cb), category(cat) {}
+
 
     void print() const {
-        cout << "Food: " << food << ", Calories: " << calories << endl;
+        cout << left << setw(50) << food
+            << setw(25) << measure
+            << setw(10) << grams
+            << setw(10) << calories
+            << setw(10) << protein
+            << setw(10)<< fat
+            << setw(10) << sat_fat
+            << setw(10) << fibre
+            << setw(10) << carbs
+            << setw(20) << category;
+            cout << endl; 
     }
 };
 
@@ -51,6 +70,20 @@ public:
     int getListSize() const {
             return size;
         }
+
+    void printHeader(){
+         cout << left << setw(50) << "Food"
+            << setw(25) << "Measure"
+            << setw(10) << "Grams"
+            << setw(10) << "Calories"
+            << setw(10) << "Protein"
+            << setw(10)<< "Fat"
+            << setw(10) << "Sat_fat"
+            << setw(10) << "Fibre"
+            << setw(10) << "Carbs"
+            << setw(20) << "Category";
+            cout << endl;
+    }
 
     Food* CreateNewNode(string food, string measure, int grams,int calories, int protein, int fat, int sat_fat, double fibre, int carbs, string category){
         Food* newnode = new Food;
@@ -192,12 +225,13 @@ public:
         int index = 0;
 
         while (current != nullptr) {
-            arr[index] = FoodCalorieArray(current->food, current->calories);
+            arr[index] = FoodCalorieArray(current->food, current->measure, current->grams, current->calories, 
+            current->protein, current->fat, current->sat_fat, current->fibre, current->carbs, current->category);
             current = current->nextaddrress;
             ++index;
-        }
+            }
 
-        return arr;
+            return arr;
     }
 
     bool binarySearch(FoodCalorieArray arr[], int targetCalories, int size)
