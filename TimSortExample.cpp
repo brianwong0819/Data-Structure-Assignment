@@ -81,7 +81,7 @@ void timSort(FoodCalorieArray arr[], int n) {
 
 
 
-// Function to get the head of the run starting at 'startIdx' position
+
 Food* getRunHead(Food* head, int startIdx) {
     while (head != nullptr && startIdx > 0) {
         head = head->nextaddrress;
@@ -93,7 +93,6 @@ Food* getRunHead(Food* head, int startIdx) {
 // Function to get the tail of the list
 Food* getTail(Food* head) {
     if (head == nullptr) return nullptr;
-
     while (head->nextaddrress != nullptr) {
         head = head->nextaddrress;
     }
@@ -116,109 +115,95 @@ void sortedInsert(Food*& sortedHead, Food* newNode) {
 
 void insertionSortRun(Food*& start, int runSize) {
     if (start == nullptr || runSize <= 1) {
-        return; // No need to sort
+        return;
     }
 
-    Food* sorted = nullptr; // Initially, sorted part is empty
-    Food* current = start;  // Starting node of the run
+    Food* sorted = nullptr;
+    Food* current = start;
     Food* nextStart = nullptr;
+    int count = 0;
 
-    int count = 0; // To keep track of the number of nodes sorted
-
-    // Sort only the first 'runSize' nodes
     while (current != nullptr && count < runSize) {
-        nextStart = current->nextaddrress; // Store next node for the next iteration
-        sortedInsert(sorted, current);     // Insert current node in sorted
-        current = nextStart;               // Move to the next node in the run
+        nextStart = current->nextaddrress;
+        sortedInsert(sorted, current);
+        current = nextStart;
         count++;
     }
 
-    // Link back the sorted run with the remaining list
-    start = sorted; // New start is the head of the sorted list
-    while (sorted != nullptr && sorted->nextaddrress != nullptr) { // Find the end of the sorted list
-        sorted = sorted->nextaddrress;
+    start = sorted;
+    // Ensure the end of this sorted run points to the next part of the list
+    Food* tail = sorted;
+    while (tail->nextaddrress != nullptr) {
+        tail = tail->nextaddrress;
     }
-    if (sorted != nullptr) {
-        sorted->nextaddrress = nextStart; // Connect the end of the sorted list to the next unsorted part
-    }
+    tail->nextaddrress = nextStart;
 }
 
 
 Food* mergeLinkedList(Food* left, Food* right) {
-    // Base cases
-    if (left == nullptr) return right;
-    if (right == nullptr) return left;
+    if (!left) return right;
+    if (!right) return left;
 
-    // Start with the smaller element
-    Food* head = nullptr;
+    Food* mergedHead = nullptr;
     if (left->calories <= right->calories) {
-        head = left;
+        mergedHead = left;
         left = left->nextaddrress;
     } else {
-        head = right;
+        mergedHead = right;
         right = right->nextaddrress;
     }
 
-    // Merge the remaining elements
-    Food* current = head;
-    while (left != nullptr && right != nullptr) {
+    Food* mergedTail = mergedHead;
+    while (left && right) {
         if (left->calories <= right->calories) {
-            current->nextaddrress = left;
+            mergedTail->nextaddrress = left;
             left = left->nextaddrress;
         } else {
-            current->nextaddrress = right;
+            mergedTail->nextaddrress = right;
             right = right->nextaddrress;
         }
-        current = current->nextaddrress;
+        mergedTail = mergedTail->nextaddrress;
     }
 
-    // Attach the remaining elements
-    if (left != nullptr) {
-        current->nextaddrress = left;
-    } else {
-        current->nextaddrress = right;
-    }
+    if (left) mergedTail->nextaddrress = left;
+    else mergedTail->nextaddrress = right;
 
-    return head;
+    return mergedHead;
 }
 
+
 void timSortLinkedList(Food*& head, int n) {
-    // Step 1: Sort individual sublists of size RUN
+    // Sorting individual runs
     for (int i = 0; i < n; i += RUN) {
-        // Get the head of the next run
         Food* runHead = getRunHead(head, i);
-        // Sort the run
         insertionSortRun(runHead, min(RUN, n - i));
+        // Update head if sorting the first run
+        if (i == 0) head = runHead;
     }
 
-    // Step 2: Merge sorted runs
+    // Merging runs
     for (int size = RUN; size < n; size = 2 * size) {
         Food* curr = head;
         Food* tail = nullptr;
-        while (curr != nullptr) {
-            // Left run
-            Food* left = curr;
-            // Right run starts after 'size' nodes from left run
-            Food* right = getRunHead(curr, size);
 
-            // Skip '2 * size' nodes for the next merge
+        while (curr != nullptr) {
+            Food* left = curr;
+            Food* right = getRunHead(curr, size);
             curr = getRunHead(right, size);
 
-            // Merge left and right runs
             Food* merged = mergeLinkedList(left, right);
 
-            // Connect the merged run with the previous part of the list
             if (tail == nullptr) {
                 head = merged;
             } else {
                 tail->nextaddrress = merged;
             }
 
-            // Update tail to the end of the merged list
             tail = getTail(merged);
         }
     }
 }
+
 
 int main() {
     NutrientClass nutrientClass;
