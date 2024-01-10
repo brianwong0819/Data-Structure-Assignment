@@ -199,5 +199,32 @@ public:
 
         return arr;
     }
-};
 
+    bool binarySearch(FoodCalorieArray arr[], int targetCalories, int size)
+    {
+        int lastIndex = size - 1; //last index
+        int firstIndex = 0; //first index
+
+        while (firstIndex <= lastIndex) //worst case = O(logbase2 n)
+        {
+            int midIndex = (firstIndex + lastIndex) / 2;
+
+            if (arr[midIndex].calories == targetCalories) //best case - always first found answer: O(1)
+            {
+                cout << "Food Name: " << arr[midIndex].food << ", Calories: " << arr[midIndex].calories << endl;
+                return true;
+            }
+
+            if (arr[midIndex].calories < targetCalories)
+            {
+                firstIndex = midIndex + 1;
+            }
+            else
+            {
+                lastIndex = midIndex - 1;
+            }
+        }
+        cout << "No calories found in the array.";
+        return false;
+    }
+};
