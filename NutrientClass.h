@@ -33,10 +33,13 @@ struct FoodCalorieArray {
     string category;
 
     // Default constructor
-    FoodCalorieArray() : food(""), measure(""), grams(0), calories(0), protein(0), fat(0), sat_fat(0), fibre(0.0), carbs(0.0), category("") {}
+    FoodCalorieArray() : food(""), measure(""), grams(0), calories(0), protein(0), fat(0), 
+    sat_fat(0), fibre(0.0), carbs(0.0), category("") {}
 
     // Constructor with parameters
-    FoodCalorieArray(string f, string m, int g, int c, int p, int ft, int sf, double fb, double cb, string cat) : food(f), measure(m), grams(g), calories(c), protein(p), fat(ft), sat_fat(sf), fibre(fb), carbs(cb), category(cat) {}
+    FoodCalorieArray(string f, string m, int g, int c, int p, int ft, int sf, double fb, 
+    double cb, string cat) : food(f), measure(m), grams(g), calories(c), protein(p), 
+    fat(ft), sat_fat(sf), fibre(fb), carbs(cb), category(cat) {}
 
 
     void print() const {

@@ -1,158 +1,141 @@
-#include <chrono>
-#include "NutrientClass.h"
-
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+#include <sstream>
+#include "NutrientClass.h" // Assuming this contains your NutrientClass and Food structure
 
 using namespace std;
-using namespace std::chrono;
-
-const int RUN = 32;
-
-
-Food* getRunHead(Food* head, int startIdx) {
-    while (head != nullptr && startIdx > 0) {
-        head = head->nextaddrress;
-        startIdx--;
+// Utility function to get the start of a run
+Food* getRunStart(Food* head, int startIndex) {
+    Food* current = head;
+    while (startIndex > 0 && current != nullptr) {
+        current = current->nextaddrress;
+        --startIndex;
     }
-    return head;
+    return current;
 }
 
-// Function to get the tail of the list
-Food* getTail(Food* head) {
-    if (head == nullptr) return nullptr;
-    while (head->nextaddrress != nullptr) {
-        head = head->nextaddrress;
+// Utility function to get the tail of a run
+Food* getTail(Food* start, int runSize) {
+    while (runSize > 1 && start != nullptr && start->nextaddrress != nullptr) {
+        start = start->nextaddrress;
+        --runSize;
     }
-    return head;
+    return start;
 }
 
-void sortedInsert(Food*& sortedHead, Food* newNode) {
-    if (sortedHead == nullptr || sortedHead->calories >= newNode->calories) {
-        newNode->nextaddrress = sortedHead;
-        sortedHead = newNode;
-    } else {
-        Food* current = sortedHead;
-        while (current->nextaddrress != nullptr && current->nextaddrress->calories < newNode->calories) {
-            current = current->nextaddrress;
+// Function to merge two sorted runs
+Food* sortedMerge(Food* a, Food* b) {
+    Food dummy;
+    Food* tail = &dummy;
+    dummy.nextaddrress = nullptr;
+
+    while (a != nullptr && b != nullptr) {
+        if (a->calories <= b->calories) {
+            tail->nextaddrress = a;
+            a = a->nextaddrress;
+        } else {
+            tail->nextaddrress = b;
+            b = b->nextaddrress;
         }
-        newNode->nextaddrress = current->nextaddrress;
-        current->nextaddrress = newNode;
+        tail = tail->nextaddrress;
     }
+
+    tail->nextaddrress = (a != nullptr) ? a : b;
+    return dummy.nextaddrress;
 }
 
-void insertionSortRun(Food*& start, int runSize) {
-    if (start == nullptr || runSize <= 1) {
-        return;
-    }
+// Function for insertion sort on a sub-list
+void insertionSort(Food*& start, int runSize) {
+    if (start == nullptr || runSize < 2) return;
 
     Food* sorted = nullptr;
     Food* current = start;
-    Food* nextStart = nullptr;
-    int count = 0;
 
-    while (current != nullptr && count < runSize) {
-        nextStart = current->nextaddrress;
-        sortedInsert(sorted, current);
-        current = nextStart;
-        count++;
+    while (runSize > 0 && current != nullptr) {
+        Food* next = current->nextaddrress;
+        Food* sortedPrev = nullptr;
+        Food* sortedCurr = sorted;
+
+        while (sortedCurr != nullptr && sortedCurr->calories < current->calories) {
+            sortedPrev = sortedCurr;
+            sortedCurr = sortedCurr->nextaddrress;
+        }
+
+        current->nextaddrress = sortedCurr;
+        if (sortedPrev == nullptr) sorted = current;
+        else sortedPrev->nextaddrress = current;
+
+        current = next;
+        --runSize;
     }
 
     start = sorted;
-    // Ensure the end of this sorted run points to the next part of the list
-    Food* tail = sorted;
-    while (tail->nextaddrress != nullptr) {
-        tail = tail->nextaddrress;
-    }
-    tail->nextaddrress = nextStart;
 }
 
-
-Food* mergeLinkedList(Food* left, Food* right) {
-    if (!left) return right;
-    if (!right) return left;
-
-    Food* mergedHead = nullptr;
-    if (left->calories <= right->calories) {
-        mergedHead = left;
-        left = left->nextaddrress;
-    } else {
-        mergedHead = right;
-        right = right->nextaddrress;
-    }
-
-    Food* mergedTail = mergedHead;
-    while (left && right) {
-        if (left->calories <= right->calories) {
-            mergedTail->nextaddrress = left;
-            left = left->nextaddrress;
-        } else {
-            mergedTail->nextaddrress = right;
-            right = right->nextaddrress;
-        }
-        mergedTail = mergedTail->nextaddrress;
-    }
-
-    if (left) mergedTail->nextaddrress = left;
-    else mergedTail->nextaddrress = right;
-
-    return mergedHead;
-}
-
-
-void timSortLinkedList(Food*& head, int n) {
-    // Sorting individual runs
+void timSortLinkedList(Food*& head, int n, const int RUN) {
     for (int i = 0; i < n; i += RUN) {
-        Food* runHead = getRunHead(head, i);
-        insertionSortRun(runHead, min(RUN, n - i));
-        // Update head if sorting the first run
-        if (i == 0) head = runHead;
+        Food* runStart = getRunStart(head, i);
+        insertionSort(runStart, RUN);
+
+        Food* runEnd = getTail(runStart, RUN);
+        Food* nextRunStart = (runEnd != nullptr) ? runEnd->nextaddrress : nullptr;
+
+        if (i == 0) head = runStart;
+        if (runEnd != nullptr) runEnd->nextaddrress = nullptr;
     }
 
-    // Merging runs
-    for (int size = RUN; size < n; size = 2 * size) {
-        Food* curr = head;
-        Food* tail = nullptr;
+    for (int size = RUN; size < n; size *= 2) {
+        Food* current = head;
+        Food* prevTail = nullptr;
+        Food* newHead = nullptr;
 
-        while (curr != nullptr) {
-            Food* left = curr;
-            Food* right = getRunHead(curr, size);
-            curr = getRunHead(right, size);
+        while (current != nullptr) {
+            Food* left = current;
+            Food* leftEnd = getTail(left, size);
 
-            Food* merged = mergeLinkedList(left, right);
+            if (leftEnd == nullptr) break;
 
-            if (tail == nullptr) {
-                head = merged;
-            } else {
-                tail->nextaddrress = merged;
-            }
+            Food* right = leftEnd->nextaddrress;
+            leftEnd->nextaddrress = nullptr;
 
-            tail = getTail(merged);
+            Food* rightEnd = getTail(right, size);
+            Food* remaining = (rightEnd != nullptr) ? rightEnd->nextaddrress : nullptr;
+            if (rightEnd != nullptr) rightEnd->nextaddrress = nullptr;
+
+            Food* merged = sortedMerge(left, right);
+
+            if (prevTail == nullptr) newHead = merged;
+            else prevTail->nextaddrress = merged;
+
+            prevTail = getTail(merged, size * 2);
+            current = remaining;
         }
+
+        head = newHead;
     }
 }
 
 
+// Main function
 int main() {
     NutrientClass nutrientClass;
-
+    // Load data
     nutrientClass.LoadFromFile("Nutrients_Info.csv");
 
-    // Assuming getHead() returns a pointer to the head of the linked list
-    Food* head = nutrientClass.getHead();
-
-    // Assuming getListSize() returns the number of elements in the list
-    int listSize = nutrientClass.getListSize();
-
-    // Print the linked list before sorting
-    cout << "Linked List before sorting:" << endl;
+    cout << "Linked list before sorting:" << endl;
     nutrientClass.DisplayLinkedList();
 
-    // Sort the linked list using TimSort
-    timSortLinkedList(head, listSize); // Make sure timSortLinkedList is accessible here, potentially as a friend function
+    // Sorting
+    const int RUN = 328;
+    Food* sortedHead = nutrientClass.getHead();
+    timSortLinkedList(sortedHead, nutrientClass.getListSize(), RUN);
+    nutrientClass.setHead(sortedHead);
 
-    // Update the head in nutrientClass in case it has changed
-    nutrientClass.setHead(head);
-
-    // Print the linked list after sorting
-    cout << "\nLinked List after sorting:" << endl;
+    cout << "\nLinked list after sorting:" << endl;
+    nutrientClass.printHeader();
     nutrientClass.DisplayLinkedList();
+
+    return 0;
 }
