@@ -35,10 +35,7 @@ Food* sortArray(Food* arr, int size)
 
     for (int i = size - 1; i > 0; i--)
     {
-        int temp = arr[0].calories;
-        arr[0].calories = arr[i].calories;
-        arr[i].calories = temp;
-        
+        swap(arr[0], arr[i]);
         heapify(arr, i, 0);
     }
 
@@ -53,6 +50,7 @@ Food* heapSort(Food* head) {
         current = current->nextaddrress;
     }
 
+    // Convert linked list to an array
     Food* arr = new Food[size];
     current = head;
     int index = 0;
@@ -63,16 +61,20 @@ Food* heapSort(Food* head) {
         ++index;
     }
 
+    // Perform heap sort on the array
     sortArray(arr, size);
 
-    current = head;
+    // Create a new sorted linked list
+    Food* sortedList = nullptr;
     for (int i = 0; i < size; ++i) {
-        current->calories = arr[i].calories;
-        current = current->nextaddrress;
+        Food* newNode = new Food(arr[i]);
+        newNode->nextaddrress = sortedList;
+        sortedList = newNode;
     }
 
     delete[] arr;
-    return head;
+
+    return sortedList;
 }
 
 int main() {
@@ -86,6 +88,9 @@ int main() {
     auto timestart = high_resolution_clock::now();
     nutrientList.setHead(heapSort(nutrientList.getHead()));
 
+    // Reverse the sorted linked list
+    nutrientList.setHead(nutrientList.reverseLinkedList(nutrientList.getHead()));
+
     cout << "\n\n\nAfter Sorting:" << endl;
     nutrientList.printHeader();
     nutrientList.DisplayLinkedList();
@@ -93,7 +98,7 @@ int main() {
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
-    cout << "\nTime taken by merge sort algorithm(Lineked List) is: " << durationgap.count() << " microseconds" << endl;
-    
+    cout << "\nTime taken by heap sort algorithm(Linked List) is: " << durationgap.count() << " microseconds" << endl;
+
     return 0;
 }
