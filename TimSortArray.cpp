@@ -54,7 +54,6 @@ void merge(FoodCalorieArray arr[], int l, int m, int r) {
         k++;
         j++;
     }
-
     delete[] left;
     delete[] right;
 }
