@@ -1,9 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include "NutrientClass.h" // Assuming this contains your NutrientClass and Food structure
+#include <chrono>
+#include "NutrientClass.h"
+
+using namespace std;
+using namespace std::chrono;
+
 
 using namespace std;
 // Utility function to get the start of a run
@@ -130,6 +130,7 @@ int main() {
     // Sorting
     const int RUN = 328;
     Food* sortedHead = nutrientClass.getHead();
+    auto timestart = high_resolution_clock::now();
     timSortLinkedList(sortedHead, nutrientClass.getListSize(), RUN);
     nutrientClass.setHead(sortedHead);
 
@@ -137,5 +138,10 @@ int main() {
     nutrientClass.printHeader();
     nutrientClass.DisplayLinkedList();
 
+    nutrientClass.binarySearchLinkedList(505);
+    auto timeend = high_resolution_clock::now();
+
+    auto durationgap = duration_cast<microseconds>(timeend - timestart);
+    cout << "Time taken by Tim Sort algorithm is: " << durationgap.count() << " microseconds" << endl;
     return 0;
 }

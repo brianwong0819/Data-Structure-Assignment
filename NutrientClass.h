@@ -11,7 +11,7 @@ struct Food
     string measure;
     int grams;
     int protein;
-    int calories;//hh
+    int calories;
     int fat;
     int sat_fat;
     double fibre;
@@ -96,7 +96,8 @@ public:
             cout << endl;
     }
 
-    Food* CreateNewNode(string food, string measure, int grams,int calories, int protein, int fat, int sat_fat, double fibre, int carbs, string category){
+    Food* CreateNewNode(string food, string measure, int grams,int calories, int protein, 
+    int fat, int sat_fat, double fibre, int carbs, string category){
         Food* newnode = new Food;
         newnode->food = food;
         newnode->measure = measure;
@@ -132,9 +133,9 @@ public:
         cout << "Total rows: " << size;
     }
 
-    void InserttoFront(string food, string measure, int grams,int calories, int protein, int fat, int sat_fat, double fibre, int carbs, string category){
+    void InserttoFront(string food, string measure, int grams,int calories, int protein, 
+    int fat, int sat_fat, double fibre, int carbs, string category){
         Food* newnode = CreateNewNode(food, measure, grams, calories, protein, fat, sat_fat, fibre, carbs, category);
-
         if (head == nullptr)
         {
             head = newnode;
@@ -149,10 +150,9 @@ public:
             return;
         }
     }
-
-    void InserttoEnd(string food, string measure, int grams,int calories, int protein, int fat, int sat_fat, double fibre, int carbs, string category){
+    void InserttoEnd(string food, string measure, int grams,int calories, int protein, int fat,
+     int sat_fat, double fibre, int carbs, string category){
         Food* newnode = CreateNewNode(food, measure, grams, calories, protein, fat, sat_fat, fibre, carbs, category);
-
         if (head == nullptr)
         {
             head = newnode;
@@ -225,7 +225,8 @@ public:
             string category = getNextField(ss);
 
             // Insert into the linked list
-            InserttoEnd(food, measure, stoi(grams), stoi(calories), stoi(protein), stoi(fat), stoi(sat_fat), stod(fibre), stod(carbs), category);
+            InserttoEnd(food, measure, stoi(grams), stoi(calories), stoi(protein), 
+            stoi(fat), stoi(sat_fat), stod(fibre), stod(carbs), category);
         }
     }
 
