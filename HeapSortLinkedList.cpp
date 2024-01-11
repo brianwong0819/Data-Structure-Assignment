@@ -95,10 +95,11 @@ int main() {
     nutrientList.printHeader();
     nutrientList.DisplayLinkedList();
 
+    nutrientList.binarySearchLinkedList(212); 
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
-    cout << "\nTime taken by heap sort algorithm(Linked List) is: " << durationgap.count() << " microseconds" << endl;
+    cout << "Time taken by heap sort algorithm(Linked List) is: " << durationgap.count() << " microseconds" << endl;
 
     return 0;
 }

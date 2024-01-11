@@ -42,14 +42,14 @@ void heapSort(FoodCalorieArray arr[], int n)
 
 int main()
 {
-    NutrientClass nutrientClass;
-    nutrientClass.LoadFromFile("Nutrients_Info.csv");
+    NutrientClass nutrientList;
+    nutrientList.LoadFromFile("Nutrients_Info.csv");
 
-    int size = nutrientClass.getListSize();
-    FoodCalorieArray* arr = nutrientClass.getFoodCalorieArray();
+    int size = nutrientList.getListSize();
+    FoodCalorieArray* arr = nutrientList.getFoodCalorieArray();
 
     cout << "Before Sorting:" << endl;
-    nutrientClass.printHeader();
+    nutrientList.printHeader();
     for (int i = 0; i < size; ++i)
     {
         arr[i].print();
@@ -59,12 +59,13 @@ int main()
     heapSort(arr, size);
 
     cout << "\nAfter Sorting:" << endl;
-    nutrientClass.printHeader();
+    nutrientList.printHeader();
     for (int i = 0; i < size; ++i)
     {
         arr[i].print();
     }
 
+    nutrientList.binarySearch(arr, 212, size);
     auto timeend = high_resolution_clock::now();
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
     cout << "Time taken by heap sort algorithm(Array) is: " << durationgap.count() << " microseconds" << endl;
