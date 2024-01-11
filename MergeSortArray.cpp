@@ -8,17 +8,15 @@ void merge(FoodCalorieArray arr[], int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    // 创建临时数组
     FoodCalorieArray *L = new FoodCalorieArray[n1];
     FoodCalorieArray *R = new FoodCalorieArray[n2];
 
-    // 拷贝数据到临时数组
+    // copy data to temporary array
     for (int i = 0; i < n1; i++)
         L[i] = arr[left + i];
     for (int j = 0; j < n2; j++)
         R[j] = arr[mid + 1 + j];
 
-    // 合并临时数组
     int i = 0, j = 0, k = left;
     while (i < n1 && j < n2) {
         if (L[i].calories <= R[j].calories) {
@@ -31,14 +29,12 @@ void merge(FoodCalorieArray arr[], int left, int mid, int right) {
         k++;
     }
 
-    // 拷贝 L[] 的剩余元素
     while (i < n1) {
         arr[k] = L[i];
         i++;
         k++;
     }
 
-    // 拷贝 R[] 的剩余元素
     while (j < n2) {
         arr[k] = R[j];
         j++;
@@ -51,14 +47,11 @@ void merge(FoodCalorieArray arr[], int left, int mid, int right) {
 
 void mergeSort(FoodCalorieArray arr[], int left, int right) {
     if (left < right) {
-        // 找到中间点
         int mid = left + (right - left) / 2;
 
-        // 递归地对左右两半排序
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
 
-        // 合并两半
         merge(arr, left, mid, right);
     }
 }

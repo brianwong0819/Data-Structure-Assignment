@@ -4,7 +4,6 @@
 using namespace std;
 using namespace std::chrono;
 
-// merge two sorted linked list
 Food* merge(Food* a, Food* b) {
     Food* result = nullptr;
 
@@ -24,7 +23,6 @@ Food* merge(Food* a, Food* b) {
     return result;
 }
 
-//find out the middle of the linked list and split it 
 Food* getMiddle(Food* head) {
     if (head == nullptr || head->nextaddrress == nullptr) {
         return head;
@@ -44,7 +42,6 @@ Food* getMiddle(Food* head) {
     return slow;
 }
 
-//merge sort
 Food* mergeSort(Food* head) {
     if (head == nullptr || head->nextaddrress == nullptr) {
         return head;
@@ -73,8 +70,6 @@ int main() {
 
     nutrientData.LoadFromFile("Nutrients_Info.csv");
 
-    //Linked List
-
     std::cout << "Before Sorting:(Linked List)" << std::endl;
     nutrientData.printHeader();
     nutrientData.DisplayLinkedList();
@@ -90,6 +85,7 @@ int main() {
     std::cout << "\n\n\nAfter Sorting:(Linked List)" << std::endl;
     nutrientData.DisplayLinkedList();
 
+    nutrientData.binarySearchLinkedList(0); 
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);

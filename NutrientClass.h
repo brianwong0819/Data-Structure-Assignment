@@ -269,4 +269,36 @@ public:
         cout << "No calories found in the array.";
         return false;
     }
+
+    void binarySearchLinkedList(int targetCalories) {
+        Food* start = head;
+        Food* end = nullptr;
+
+        while (start != end) {
+            Food* slow = start;
+            Food* fast = start->nextaddrress;
+
+            while (fast != end) {
+                fast = fast->nextaddrress;
+                if (fast != end) {
+                    slow = slow->nextaddrress;
+                    fast = fast->nextaddrress;
+                }
+            }
+
+            Food* mid = slow;
+
+            
+            if (mid->calories == targetCalories) {
+                std::cout << "\nFound food with " << targetCalories << " calories: " << mid->food << std::endl;
+                return;
+            } else if (mid->calories < targetCalories) {
+                start = mid->nextaddrress;
+            } else {
+                end = mid;
+            }
+        }
+
+        cout << "\nNo food found with " << targetCalories << " calories." << endl;
+    }
 };
