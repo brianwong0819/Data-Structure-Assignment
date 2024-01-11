@@ -55,7 +55,7 @@ struct FoodCalorieArray {
         << setw(10) << carbs
         << setw(20) << category;
     cout << endl; 
-}
+    }
 
 };
 
@@ -307,20 +307,5 @@ public:
         }
 
         cout << "\nNo food found with " << targetCalories << " calories." << endl;
-    }
-
-    Food* reverseLinkedList(Food* head) {
-        Food* prev = nullptr;
-        Food* current = head;
-        Food* next = nullptr;
-
-        while (current != nullptr) {
-            next = current->nextaddrress;
-            current->nextaddrress = prev;
-            prev = current;
-            current = next;
-        }
-
-        return prev;
     }
 };
