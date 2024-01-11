@@ -42,19 +42,21 @@ struct FoodCalorieArray {
     fat(ft), sat_fat(sf), fibre(fb), carbs(cb), category(cat) {}
 
 
-    void print() const {
-        cout << left << setw(50) << food
-            << setw(25) << measure
-            << setw(10) << grams
-            << setw(10) << calories
-            << setw(10) << protein
-            << setw(10)<< fat
-            << setw(10) << sat_fat
-            << setw(10) << fibre
-            << setw(10) << carbs
-            << setw(20) << category;
-            cout << endl; 
-    }
+    void print(int rowNumber) const {
+    cout << left << setw(4) << rowNumber
+        << setw(50) << food
+        << setw(25) << measure
+        << setw(10) << grams
+        << setw(10) << calories
+        << setw(10) << protein
+        << setw(10) << fat
+        << setw(10) << sat_fat
+        << setw(10) << fibre
+        << setw(10) << carbs
+        << setw(20) << category;
+    cout << endl; 
+}
+
 };
 
 
@@ -83,7 +85,7 @@ public:
         }
 
     void printHeader(){
-         cout << left << setw(50) << "Food"
+         cout << left << setw(4) << "No." << setw(50) << "Food"
             << setw(25) << "Measure"
             << setw(10) << "Grams"
             << setw(10) << "Calories"
@@ -115,23 +117,24 @@ public:
 
     void DisplayLinkedList() {
         Food* current = head;
-        while (current != nullptr)
-        {
-            cout << left << setw(50) << current->food
-            << setw(25) << current->measure
-            << setw(10) << current->grams
-            << setw(10) << current->calories
-            << setw(10) << current->protein
-            << setw(10)<< current->fat
-            << setw(10) << current->sat_fat
-            << setw(10) << current->fibre
-            << setw(10) << current->carbs
-            << setw(20) << current->category;
+        int rowNumber = 1; // Initialize row number
+        while (current != nullptr) {
+            cout << left << setw(4) << rowNumber++ << setw(50) << current->food
+                << setw(25) << current->measure
+                << setw(10) << current->grams
+                << setw(10) << current->calories
+                << setw(10) << current->protein
+                << setw(10) << current->fat
+                << setw(10) << current->sat_fat
+                << setw(10) << current->fibre
+                << setw(10) << current->carbs
+                << setw(20) << current->category;
             current = current->nextaddrress;
             cout << endl; 
         }
         cout << "Total rows: " << size;
     }
+
 
     void InserttoFront(string food, string measure, int grams,int calories, int protein, 
     int fat, int sat_fat, double fibre, int carbs, string category){

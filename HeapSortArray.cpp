@@ -52,7 +52,7 @@ int main()
     nutrientList.printHeader();
     for (int i = 0; i < size; ++i)
     {
-        arr[i].print();
+        arr[i].print(i + 1);
     }
 
     auto timestart = high_resolution_clock::now();
@@ -62,7 +62,7 @@ int main()
     nutrientList.printHeader();
     for (int i = 0; i < size; ++i)
     {
-        arr[i].print();
+        arr[i].print(i + 1);
     }
 
     nutrientList.binarySearch(arr, 212, size);

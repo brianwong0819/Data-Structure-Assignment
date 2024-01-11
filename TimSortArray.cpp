@@ -86,7 +86,7 @@ int main() {
     // Print array before sorting
     for (int i = 0; i < Size; ++i) {
         // cout << "Row " << i+1 << " ";
-        foodCalorieArray[i].print();
+        foodCalorieArray[i].print(i + 1);
     }
 
     auto timestart = high_resolution_clock::now();
@@ -98,7 +98,7 @@ int main() {
     // Print array after sorting
     for (int i = 0; i < Size; ++i) {
         // cout << "Row " << i << ": ";
-        foodCalorieArray[i].print();
+        foodCalorieArray[i].print(i + 1);
     }
 
     nutrientClass.binarySearch(foodCalorieArray, 505, Size);
