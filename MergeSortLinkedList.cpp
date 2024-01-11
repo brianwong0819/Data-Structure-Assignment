@@ -70,22 +70,22 @@ int main() {
 
     nutrientData.LoadFromFile("Nutrients_Info.csv");
 
-    std::cout << "Before Sorting:(Linked List)" << std::endl;
+    cout << "Before Sorting:(Linked List)" << endl;
     nutrientData.printHeader();
     nutrientData.DisplayLinkedList();
 
     sortLinkedList(nutrientData);
 
-    std::cout << "\n\n\nAfter Sorting:" << std::endl;
+    cout << "\n\n\nAfter Sorting:" << endl;
     nutrientData.printHeader();   
     nutrientData.DisplayLinkedList();
 
     auto timestart = high_resolution_clock::now();
     sortLinkedList(nutrientData);
-    std::cout << "\n\n\nAfter Sorting:(Linked List)" << std::endl;
+    cout << "\n\n\nAfter Sorting:(Linked List)" << endl;
     nutrientData.DisplayLinkedList();
 
-    nutrientData.binarySearchLinkedList(0); 
+    nutrientData.binarySearchLinkedList(505); 
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
