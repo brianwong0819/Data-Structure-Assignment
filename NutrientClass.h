@@ -282,7 +282,7 @@ public:
         Food* end = nullptr;
 
         while (start != end) {
-            Food* slow = start;
+            Food* slow = start;    
             Food* fast = start->nextaddrress;
 
             while (fast != end) {

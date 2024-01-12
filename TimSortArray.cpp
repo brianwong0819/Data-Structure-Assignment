@@ -101,7 +101,7 @@ int main() {
         foodCalorieArray[i].print(i + 1);
     }
 
-    nutrientClass.binarySearch(foodCalorieArray, 505, Size);
+    nutrientClass.binarySearch(foodCalorieArray, 212, Size);
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
