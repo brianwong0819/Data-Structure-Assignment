@@ -105,7 +105,7 @@ int main() {
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
-    cout << "Time taken by Tim Sort algorithm is: " << durationgap.count() << " microseconds" << endl;
+    cout << "Time taken by Tim Sort algorithm(Array) is: " << durationgap.count() << " microseconds" << endl;
     // Clean up
     delete[] foodCalorieArray;
     return 0;

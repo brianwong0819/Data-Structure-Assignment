@@ -142,6 +142,6 @@ int main() {
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
-    cout << "Time taken by Tim Sort algorithm is: " << durationgap.count() << " microseconds" << endl;
+    cout << "Time taken by Tim Sort algorithm(Linked List) is: " << durationgap.count() << " microseconds" << endl;
     return 0;
 }

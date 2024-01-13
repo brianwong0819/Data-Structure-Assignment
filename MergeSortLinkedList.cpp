@@ -85,7 +85,7 @@ int main() {
     cout << "\n\n\nAfter Sorting:(Linked List)" << endl;
     nutrientData.DisplayLinkedList();
 
-    nutrientData.binarySearchLinkedList(100); 
+    nutrientData.binarySearchLinkedList(505); 
     auto timeend = high_resolution_clock::now();
 
     auto durationgap = duration_cast<microseconds>(timeend - timestart);
