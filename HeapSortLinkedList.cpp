@@ -89,7 +89,18 @@ int main() {
     nutrientList.setHead(heapSort(nutrientList.getHead()));
 
     // Reverse the sorted linked list
-    nutrientList.setHead(nutrientList.reverseLinkedList(nutrientList.getHead()));
+    Food* prev = nullptr;
+    Food* current = nutrientList.getHead();
+    Food* next = nullptr;
+
+    while (current != nullptr) {
+        next = current->nextaddrress;
+        current->nextaddrress = prev;
+        prev = current;
+        current = next;
+    }
+    
+    nutrientList.setHead(prev); 
 
     cout << "\n\n\nAfter Sorting:" << endl;
     nutrientList.printHeader();
